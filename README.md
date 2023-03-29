@@ -448,3 +448,12 @@ mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 - Similarly add same line after every Row and Column.
 The app appears as follows so far.
 ![image](https://user-images.githubusercontent.com/76885050/228528869-e605aa46-f707-4214-a8fd-a4736d7a9ffd.png)
+
+- Since the text appears small, let us increase the size of text. Add the textScaleFactor to every text widget.
+```
+textScaleFactor: 1.5,
+```
+- Adding padding and color to the display containers will make it more pretty.
+```
+padding: EdgeInsets.all(10),
+```
