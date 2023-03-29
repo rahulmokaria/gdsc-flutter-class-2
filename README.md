@@ -144,5 +144,307 @@ appBar: AppBar(
           title: Text("Calculator"),
         ),
 ```
-In AppBar() widget we can provide the background color, title and center title properties as bel
+In AppBar() widget we can provide the background color, title and center title properties as below:
+```
+appBar: AppBar(
+          backgroundColor: Colors.lightGreen,
+          title: Text("Calculator"),
+          centerTitle: true,
+        ),
+```
+- Next we come to the body property of Scaffold(). The body consists of 20 buttons to calculate and clear the result and an area to display the answer.
+- body part of scaffold will contain a container at **Line 22**.
+```
+        body: Container(),
+```
+- As we have buttons below the output bar, we will need a Column with 3 parts.
+```
+body: Container(
+          child: Column(children: []),
+        ),
+```
+- We will add two containers, one for output part, other for the buttons.
+```
+child: Column(
+            children: [
+              Container(),
+              Container(),
+              Container(),
+            ],
+          ),
+```
+- The first container has a text widget which contains the expression.
+```
+child: Column(
+            children: [
+              Container(
+                child: Text('0 + 0'),
+              ),
+              Container(),
+              Container(),
+            ],
+          ),
+```
+- Since the calculator are generally right alligned.
+```
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.centerRight,
+                child: Text('0 + 0'),
+              ),
+              Container(),
+              Container(),
+            ],
+          ),
+```
+- Second Container will contain the output.
+```
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.centerRight,
+                child: Text('0 + 0'),
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                child: Text('0'),
+              ),
+              Container(),
+            ],
+          ),
+```
+- Since the buttons are in a grid, we will create a column widget first.
+```
+              Container(
+                child: Column(),
+              ),
+```
+- Now, we will create 5 rows to form the grid.
+```
+              Container(
+                child: Column(
+                  children: [
+                    Row(),
+                    Row(),
+                    Row(),
+                    Row(),
+                    Row(),
+                  ],
+                ),
+              ),
+```
+- Each Row contains 4 buttons.
+- Since all the buttons look the same, we will create a new widget so that we dont have to write same code again and again.
+- Create a new file my_button.dart
+- In that file we will create a stateless widget as no changes are required in the buttons. For the same we will type **stl** and choose the first option.
+ ![image](https://user-images.githubusercontent.com/76885050/228512011-52c5527b-3a3e-4a6a-b0d5-c326d2c85d79.png)
+- Name that class created as MyButton.
+- The file will be as follows:
+```
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 
+class MyButton extends StatelessWidget {
+  const MyButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+```
+- Now we will change the return widget of the MyButton class and return a GestureDetetor.
+```
+    return GestureDetector();
+```
+- Now we will assign the child attribute of the gestureDetector with Container.
+```
+return GestureDetector(
+      child: Container(),
+    );
+```
+- Since we need to show a digit/operator in this button.
+```
+    return GestureDetector(
+      child: Container(
+        child: Center(
+          child: Text('0'),
+        ),
+      ),
+    );
+```
+- Since every button will show different text, we need to give this class an attribute **buttonText** which changes with every button. We can also add a diff color with operators and digits. Thus, we add the following at **Line 6**
+```
+  String buttonText;
+  Color buttonColor;
+```
+- Now we need to change the constructor of the class with new variables.
+```
+  MyButton({super.key, required this.buttonColor, required this.buttonText});
+```
+- Now, we give the color passed as attribute to the container and buttonText as the displayed text, after which the file **my_button.dart**.
+```
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+
+class MyButton extends StatelessWidget {
+  final String buttonText;
+  final Color buttonColor;
+  MyButton({super.key, required this.buttonColor, required this.buttonText});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        color: buttonColor,
+        child: Center(
+          child: Text(buttonText),
+        ),
+      ),
+    );
+  }
+}
+```
+- Now we add buttons to the grid we created. For that we need to import the **my_button.dart** at **Line 5** in calc.dart.
+```
+import 'my_button.dart';
+```
+- Adding the buttons to the grid. The code to the grid at **Line 35** and we will give light blue color to the digits and orange color to the operators.
+```
+              Container(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        MyButton(
+                          buttonColor: Colors.orange,
+                          buttonText: 'C',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.orange,
+                          buttonText: 'Del',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.orange,
+                          buttonText: '%',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.orange,
+                          buttonText: '/',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '7',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '8',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '9',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.orange,
+                          buttonText: 'x',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '4',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '5',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '6',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.orange,
+                          buttonText: '-',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '1',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '2',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '3',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.orange,
+                          buttonText: '+',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '.',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '0',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.lightBlue,
+                          buttonText: '00',
+                        ),
+                        MyButton(
+                          buttonColor: Colors.orange,
+                          buttonText: '=',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+```
+-Now that our basic structure is ready we will make it visually appealing.  For that we will change the height and width of the containers.
+- We can use simple numbers like 50,100, etc. or we can use the screen's width and height for giving size to the widgets. For that we use :
+```
+MediaQuery.of(context).size.width;
+MediaQuery.of(context).size.height;
+```
+- Now we will give height and width to the first container i.e. expression display box. Add the following lines at **Line 28**
+```
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.2,
+```
+- Similarly add height and width to the second container at **Line 34**
+```
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.2,
+```
+- Now we will change the height and width of the buttons. Add the following lines at **Line 14** of **my_button.dart**.
+```
+                width: MediaQuery.of(context).size.width * 0.2,
+                height: MediaQuery.of(context).size.height * 0.1,
+```
+- Now we will give spacing to the grid. Add following line at **Line 26** in **calc.dart**.
+```
+mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+```
+- Similarly add same line after every Row and Column.
+The app appears as follows so far.
+![image](https://user-images.githubusercontent.com/76885050/228528869-e605aa46-f707-4214-a8fd-a4736d7a9ffd.png)
