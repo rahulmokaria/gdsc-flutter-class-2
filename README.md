@@ -457,3 +457,5 @@ textScaleFactor: 1.5,
 ```
 padding: EdgeInsets.all(10),
 ```
+To make it look more eye pleasing, you can explore more using the links given with the resources of the [first lecture](https://github.com/rahulmokaria/gdsc-flutter-class-1).
+
